@@ -2,7 +2,7 @@
 
 namespace TaskManager.Data.Entities
 {
-    public class Task
+    public class UserTask
     {
         public enum TaskStatus
         {

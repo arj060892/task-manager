@@ -11,65 +11,106 @@ namespace TaskManager.API.Controllers
     public class UserTasksController : ControllerBase
     {
         private readonly IMediator _mediator;
+        private readonly ILogger<UserTasksController> _logger;
 
-        public UserTasksController(IMediator mediator)
+        public UserTasksController(IMediator mediator, ILogger<UserTasksController> logger)
         {
             this._mediator = mediator;
+            this._logger = logger;
         }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<UserTaskResponseDTO>>> GetAllUserTasks()
         {
+            this._logger.LogInformation("Fetching all user tasks.");
             var query = new GetAllUserTasksQuery();
-            throw new Exception("Somethign wrong");
             var tasks = await this._mediator.Send(query);
+            this._logger.LogInformation($"Fetched {tasks?.Count()} user tasks.");
             return this.Ok(tasks);
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<UserTaskResponseDTO>> GetUserTask(int id)
         {
+            if (id <= 0)
+            {
+                this._logger.LogWarning($"Invalid task id: {id} provided.");
+                return this.BadRequest("Invalid task id.");
+            }
+
+            this._logger.LogInformation($"Fetching user task with id: {id}.");
             var query = new GetUserTaskByIdQuery(id);
             var task = await this._mediator.Send(query);
             if (task == null)
             {
-                return this.NotFound();
+                this._logger.LogWarning($"No task found for id: {id}.");
+                return this.NotFound($"No task found for id: {id}.");
             }
+            this._logger.LogInformation($"Fetched task details for id: {id}.");
             return this.Ok(task);
         }
 
-        // POST: api/UserTasks
         [HttpPost]
         public async Task<ActionResult<UserTaskResponseDTO>> CreateUserTask(CreateUserTaskCommand command)
         {
+            if (command == null || !this.ModelState.IsValid)
+            {
+                this._logger.LogWarning("Invalid task data provided.");
+                return this.BadRequest(this.ModelState);
+            }
+
+            this._logger.LogInformation("Creating new user task.");
             var result = await this._mediator.Send(command);
+            this._logger.LogInformation($"User task with id: {result.Id} created successfully.");
             return this.CreatedAtAction(nameof(GetUserTask), new { id = result.Id }, result);
         }
 
-        // PUT: api/UserTasks/5
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateUserTask(int id, UpdateUserTaskCommand command)
         {
+            if (id <= 0)
+            {
+                this._logger.LogWarning($"Invalid task id: {id} provided for update.");
+                return this.BadRequest("Invalid task id.");
+            }
+
+            if (command == null || !this.ModelState.IsValid)
+            {
+                this._logger.LogWarning("Invalid task data provided for update.");
+                return this.BadRequest(this.ModelState);
+            }
+
             command.Id = id;
+            this._logger.LogInformation($"Updating user task with id: {id}.");
             var result = await this._mediator.Send(command);
             if (result == null)
             {
-                return this.NotFound();
+                this._logger.LogWarning($"No task found for id: {id} for update.");
+                return this.NotFound($"No task found for id: {id}.");
             }
+            this._logger.LogInformation($"User task with id: {id} updated successfully.");
             return this.Ok(result);
         }
 
-        // DELETE: api/UserTasks/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUserTask(int id)
         {
+            if (id <= 0)
+            {
+                this._logger.LogWarning($"Invalid task id: {id} provided for deletion.");
+                return this.BadRequest("Invalid task id.");
+            }
+
+            this._logger.LogInformation($"Deleting user task with id: {id}.");
             var command = new DeleteUserTaskCommand { Id = id };
             var success = await this._mediator.Send(command);
             if (success)
             {
+                this._logger.LogInformation($"User task with id: {id} deleted successfully.");
                 return this.NoContent();
             }
-            return this.NotFound();
+            this._logger.LogWarning($"No task found for id: {id} for deletion.");
+            return this.NotFound($"No task found for id: {id}.");
         }
     }
 }

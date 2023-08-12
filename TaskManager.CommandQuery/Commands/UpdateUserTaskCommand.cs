@@ -9,6 +9,7 @@ namespace TaskManager.Core.Commands
     public class UpdateUserTaskCommand : IRequest<UserTaskResponseDTO>
     {
         public UserTaskRequestDTO UserTask { get; set; }
+        public int Id { get; set; }
     }
 
 }

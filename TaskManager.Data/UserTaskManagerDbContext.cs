@@ -5,6 +5,10 @@ namespace TaskManager.Data
 {
     public class UserTaskManagerDbContext : DbContext
     {
+        public UserTaskManagerDbContext(DbContextOptions options) : base(options)
+        {
+
+        }
         public DbSet<UserTask> UserTasks { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

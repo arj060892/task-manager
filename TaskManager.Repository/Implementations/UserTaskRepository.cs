@@ -27,24 +27,26 @@ namespace TaskManager.Repository.Implementations
             return await this._context.UserTasks.FindAsync(id);
         }
 
-        public async Task AddAsync(UserTask userTask)
+        public async Task<UserTask> AddAsync(UserTask userTask)
         {
-            await this._context.UserTasks.AddAsync(userTask);
+            var entry = await this._context.UserTasks.AddAsync(userTask);
             await this._context.SaveChangesAsync();
+            return entry.Entity;
         }
 
-        public void Update(UserTask userTask)
+        public async Task<UserTask> UpdateAsync(UserTask userTask)
         {
-            this._context.UserTasks.Update(userTask);
-            this._context.SaveChanges();
+            var entry = this._context.UserTasks.Update(userTask);
+            await this._context.SaveChangesAsync();
+            return entry.Entity;
         }
 
-        public void Delete(UserTask userTask)
+        public async Task<bool> DeleteAsync(UserTask userTask)
         {
             this._context.UserTasks.Remove(userTask);
-            this._context.SaveChanges();
+            var result = await this._context.SaveChangesAsync();
+            return result > 0;
         }
 
-        // Implement any additional methods specific to UserTask here.
     }
 }

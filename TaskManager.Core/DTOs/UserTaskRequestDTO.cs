@@ -1,4 +1,4 @@
-﻿namespace TaskManager.Core.DTOs
+﻿namespace TaskManager.Domain.DTOs
 {
     /// <summary>
     /// Represents the data required to create or update a UserTask.

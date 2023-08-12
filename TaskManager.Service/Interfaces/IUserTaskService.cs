@@ -1,4 +1,4 @@
-﻿using TaskManager.Core.DTOs;
+﻿using TaskManager.Domain.DTOs;
 
 namespace TaskManager.Service.Interfaces
 {
@@ -24,19 +24,22 @@ namespace TaskManager.Service.Interfaces
         /// Adds a new user task.
         /// </summary>
         /// <param name="userTaskDTO">The UserTaskRequestDTO to add.</param>
-        Task AddTaskAsync(UserTaskRequestDTO userTaskDTO);
+        /// <returns>Added UserTaskResponseDTO</returns>
+        Task<UserTaskResponseDTO> AddTaskAsync(UserTaskRequestDTO userTaskDTO);
 
         /// <summary>
         /// Updates an existing user task.
         /// </summary>
         /// <param name="userTaskDTO">The UserTaskRequestDTO to update.</param>
-        void UpdateTask(UserTaskRequestDTO userTaskDTO);
+        /// <returns>Updated UserTaskResponseDTO</returns>
+        Task<UserTaskResponseDTO> UpdateTask(UserTaskRequestDTO userTaskDTO);
 
         /// <summary>
         /// Deletes a user task.
         /// </summary>
-        /// <param name="userTaskDTO">The UserTaskRequestDTO to delete.</param>
-        void DeleteTask(UserTaskRequestDTO userTaskDTO);
+        /// <param name="userTaskId">The userTaskId to delete.</param>
+        /// <returns>true or false based on the delete status</returns>
+        Task<bool> DeleteTask(int userTaskId);
 
     }
 }

@@ -26,18 +26,21 @@
         /// Adds a new entity.
         /// </summary>
         /// <param name="entity">The entity to add.</param>
-        Task AddAsync(T entity);
+        /// <returns>The added entity.</returns>
+        Task<T> AddAsync(T entity);
 
         /// <summary>
         /// Updates an existing entity.
         /// </summary>
         /// <param name="entity">The entity to update.</param>
-        void Update(T entity);
+        /// <returns>The updated entity.</returns>
+        Task<T> UpdateAsync(T entity);
 
         /// <summary>
         /// Deletes an entity.
         /// </summary>
         /// <param name="entity">The entity to delete.</param>
-        void Delete(T entity);
+        /// <returns>Boolean status</returns>
+        Task<bool> DeleteAsync(T entity);
     }
 }

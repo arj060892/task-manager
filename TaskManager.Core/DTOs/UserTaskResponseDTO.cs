@@ -1,4 +1,4 @@
-﻿namespace TaskManager.Core.DTOs
+﻿namespace TaskManager.Domain.DTOs
 {
     /// <summary>
     /// Represents the data of a UserTask for API responses.

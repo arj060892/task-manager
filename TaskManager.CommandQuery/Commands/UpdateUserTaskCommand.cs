@@ -1,13 +1,14 @@
-﻿using TaskManager.Core.DTOs;
+﻿using MediatR;
+using TaskManager.Domain.DTOs;
 
 namespace TaskManager.Core.Commands
 {
     /// <summary>
     /// Command to update an existing UserTask.
     /// </summary>
-    public class UpdateUserTaskCommand
+    public class UpdateUserTaskCommand : IRequest<UserTaskResponseDTO>
     {
-        public int Id { get; set; }
         public UserTaskRequestDTO UserTask { get; set; }
     }
+
 }

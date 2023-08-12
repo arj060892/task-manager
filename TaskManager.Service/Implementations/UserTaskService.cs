@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using TaskManager.Core.DTOs;
 using TaskManager.Data.Entities;
+using TaskManager.Domain.DTOs;
 using TaskManager.Repository.Interfaces;
 using TaskManager.Service.Interfaces;
 
@@ -29,23 +29,26 @@ namespace TaskManager.Service.Implementations
             return this._mapper.Map<UserTaskResponseDTO>(task);
         }
 
-        public async Task AddTaskAsync(UserTaskRequestDTO userTaskDTO)
+        public async Task<UserTaskResponseDTO> AddTaskAsync(UserTaskRequestDTO userTaskDTO)
         {
-            var task = this._mapper.Map<UserTask>(userTaskDTO);
-            await this._repository.AddAsync(task);
+            var addedTask = await this._repository
+                .AddAsync(this._mapper.Map<UserTask>(userTaskDTO));
+
+            return this._mapper.Map<UserTaskResponseDTO>(addedTask);
         }
 
-        public void UpdateTask(UserTaskRequestDTO userTaskDTO)
+        public async Task<UserTaskResponseDTO> UpdateTask(UserTaskRequestDTO userTaskDTO)
         {
-            var task = this._mapper.Map<UserTask>(userTaskDTO);
-            this._repository.Update(task);
+            var updatedTask = await this._repository
+                .UpdateAsync(this._mapper.Map<UserTask>(userTaskDTO));
+
+            return this._mapper.Map<UserTaskResponseDTO>(updatedTask);
         }
 
-        public void DeleteTask(UserTaskRequestDTO userTaskDTO)
+        public async Task<bool> DeleteTask(int userTaskId)
         {
-            var task = this._mapper.Map<UserTask>(userTaskDTO);
-            this._repository.Delete(task);
+            var task = await this._repository.GetByIdAsync(userTaskId);
+            return await this._repository.DeleteAsync(task);
         }
-
     }
 }

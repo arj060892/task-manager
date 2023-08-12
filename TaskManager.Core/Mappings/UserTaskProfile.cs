@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using TaskManager.Core.DTOs;
 using TaskManager.Data.Entities;
+using TaskManager.Domain.DTOs;
 
-namespace TaskManager.Core.Mappings
+namespace TaskManager.Domain.Mappings
 {
     /// <summary>
     /// AutoMapper profile for UserTask entity and its related DTOs.

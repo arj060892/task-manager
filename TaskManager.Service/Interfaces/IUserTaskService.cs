@@ -1,4 +1,4 @@
-﻿using TaskManager.Data.Entities;
+﻿using TaskManager.Core.DTOs;
 
 namespace TaskManager.Service.Interfaces
 {
@@ -7,15 +7,36 @@ namespace TaskManager.Service.Interfaces
     /// </summary>
     public interface IUserTaskService
     {
-        Task<IEnumerable<UserTask>> GetAllTasksAsync();
+        /// <summary>
+        /// Retrieves all user tasks.
+        /// </summary>
+        /// <returns>A list of UserTaskResponseDTOs.</returns>
+        Task<IEnumerable<UserTaskResponseDTO>> GetAllTasksAsync();
 
-        Task<UserTask> GetTaskByIdAsync(int id);
+        /// <summary>
+        /// Retrieves a user task by its identifier.
+        /// </summary>
+        /// <param name="id">The task identifier.</param>
+        /// <returns>A UserTaskResponseDTO if found; otherwise, null.</returns>
+        Task<UserTaskResponseDTO> GetTaskByIdAsync(int id);
 
-        Task AddTaskAsync(UserTask userTask);
+        /// <summary>
+        /// Adds a new user task.
+        /// </summary>
+        /// <param name="userTaskDTO">The UserTaskRequestDTO to add.</param>
+        Task AddTaskAsync(UserTaskRequestDTO userTaskDTO);
 
-        void UpdateTask(UserTask userTask);
+        /// <summary>
+        /// Updates an existing user task.
+        /// </summary>
+        /// <param name="userTaskDTO">The UserTaskRequestDTO to update.</param>
+        void UpdateTask(UserTaskRequestDTO userTaskDTO);
 
-        void DeleteTask(UserTask userTask);
+        /// <summary>
+        /// Deletes a user task.
+        /// </summary>
+        /// <param name="userTaskDTO">The UserTaskRequestDTO to delete.</param>
+        void DeleteTask(UserTaskRequestDTO userTaskDTO);
 
     }
 }

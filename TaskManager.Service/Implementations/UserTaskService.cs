@@ -1,44 +1,51 @@
-﻿using TaskManager.Data.Entities;
+﻿using AutoMapper;
+using TaskManager.Core.DTOs;
+using TaskManager.Data.Entities;
 using TaskManager.Repository.Interfaces;
 using TaskManager.Service.Interfaces;
 
 namespace TaskManager.Service.Implementations
 {
-    /// <summary>
-    /// Service for performing operations on UserTask.
-    /// </summary>
     public class UserTaskService : IUserTaskService
     {
         private readonly IUserTaskRepository _repository;
+        private readonly IMapper _mapper;
 
-        public UserTaskService(IUserTaskRepository repository)
+        public UserTaskService(IUserTaskRepository repository, IMapper mapper)
         {
             this._repository = repository;
+            this._mapper = mapper;
         }
 
-        public async Task<IEnumerable<UserTask>> GetAllTasksAsync()
+        public async Task<IEnumerable<UserTaskResponseDTO>> GetAllTasksAsync()
         {
-            return await this._repository.GetAllAsync();
+            var tasks = await this._repository.GetAllAsync();
+            return this._mapper.Map<IEnumerable<UserTaskResponseDTO>>(tasks);
         }
 
-        public async Task<UserTask> GetTaskByIdAsync(int id)
+        public async Task<UserTaskResponseDTO> GetTaskByIdAsync(int id)
         {
-            return await this._repository.GetByIdAsync(id);
+            var task = await this._repository.GetByIdAsync(id);
+            return this._mapper.Map<UserTaskResponseDTO>(task);
         }
 
-        public async Task AddTaskAsync(UserTask userTask)
+        public async Task AddTaskAsync(UserTaskRequestDTO userTaskDTO)
         {
-            await this._repository.AddAsync(userTask);
+            var task = this._mapper.Map<UserTask>(userTaskDTO);
+            await this._repository.AddAsync(task);
         }
 
-        public void UpdateTask(UserTask userTask)
+        public void UpdateTask(UserTaskRequestDTO userTaskDTO)
         {
-            this._repository.Update(userTask);
+            var task = this._mapper.Map<UserTask>(userTaskDTO);
+            this._repository.Update(task);
         }
 
-        public void DeleteTask(UserTask userTask)
+        public void DeleteTask(UserTaskRequestDTO userTaskDTO)
         {
-            this._repository.Delete(userTask);
+            var task = this._mapper.Map<UserTask>(userTaskDTO);
+            this._repository.Delete(task);
         }
+
     }
 }

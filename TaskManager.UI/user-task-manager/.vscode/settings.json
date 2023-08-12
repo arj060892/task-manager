@@ -1,0 +1,20 @@
+{
+  "editor.formatOnSave": true,
+  "editor.linkedEditing": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll": true
+  },
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "[html]": {
+    "editor.defaultFormatter": "HookyQR.beautify"
+  },
+  "workbench.iconTheme": "material-icon-theme",
+  "gitlens.currentLine.enabled": false,
+  "coverage-gutters.coverageReportFileName": "coverage/cx/**/index.html",
+  "coverage-gutters.coverageBaseDir": "coverage/cx/**",
+  "openSpecFile.suffixMap": {
+    ".ts": ".spec.ts"
+  },
+  "editor.bracketPairColorization.enabled": true,
+  "editor.guides.bracketPairs": "active"
+}

@@ -10,7 +10,6 @@ import * as TaskActions from '../shared/store/actions/task.actions';
   styleUrls: ['./task-list.component.scss'],
 })
 export class TaskListComponent implements OnInit {
-  // Mock data based on UserTaskResponseDTO
   tasks: UserTaskResponseDTO[] = [
     {
       id: 1,
@@ -131,10 +130,7 @@ export class TaskListComponent implements OnInit {
 
   constructor(private modalService: NgbModal, private store: Store) {}
 
-  // Handle edit action (to be implemented)
-  editTask(task: UserTaskResponseDTO): void {
-    // Implement the edit functionality here
-  }
+  editTask(task: UserTaskResponseDTO): void {}
 
   deleteTask(task: UserTaskResponseDTO) {
     const modalRef = this.modalService.open(DeleteTaskModalComponent);
@@ -146,9 +142,7 @@ export class TaskListComponent implements OnInit {
           this.store.dispatch(TaskActions.deleteTask({ taskId: task.id! }));
         }
       },
-      (reason) => {
-        // Handle dismiss
-      }
+      (reason) => {}
     );
   }
 

@@ -13,6 +13,8 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { taskReducer } from './shared/store/reducers/task.reducer';
 import { TaskEffects } from './shared/store/effects/task.effects';
+import { TaskCreateComponent } from './task-create/task-create.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -20,11 +22,13 @@ import { TaskEffects } from './shared/store/effects/task.effects';
     TaskListComponent,
     TimeFormatPipe,
     DeleteTaskModalComponent,
+    TaskCreateComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     NgbModule,
+    ReactiveFormsModule,
     ApiModule.forRoot(() => {
       return new Configuration({
         basePath: `https://localhost:7129`,

@@ -19,9 +19,9 @@ import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
 // @ts-ignore
-import { CreateUserTaskCommand } from '../model/createUserTaskCommand';
-// @ts-ignore
 import { UpdateUserTaskCommand } from '../model/updateUserTaskCommand';
+// @ts-ignore
+import { UserTaskRequestDTO } from '../model/userTaskRequestDTO';
 // @ts-ignore
 import { UserTaskResponseDTO } from '../model/userTaskResponseDTO';
 
@@ -341,14 +341,14 @@ export class UserTasksService {
     }
 
     /**
-     * @param createUserTaskCommand 
+     * @param userTaskRequestDTO 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public apiUserTasksPost(createUserTaskCommand?: CreateUserTaskCommand, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<UserTaskResponseDTO>;
-    public apiUserTasksPost(createUserTaskCommand?: CreateUserTaskCommand, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<UserTaskResponseDTO>>;
-    public apiUserTasksPost(createUserTaskCommand?: CreateUserTaskCommand, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<UserTaskResponseDTO>>;
-    public apiUserTasksPost(createUserTaskCommand?: CreateUserTaskCommand, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
+    public apiUserTasksPost(userTaskRequestDTO?: UserTaskRequestDTO, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<UserTaskResponseDTO>;
+    public apiUserTasksPost(userTaskRequestDTO?: UserTaskRequestDTO, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<UserTaskResponseDTO>>;
+    public apiUserTasksPost(userTaskRequestDTO?: UserTaskRequestDTO, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<UserTaskResponseDTO>>;
+    public apiUserTasksPost(userTaskRequestDTO?: UserTaskRequestDTO, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
 
         let localVarHeaders = this.defaultHeaders;
 
@@ -398,7 +398,7 @@ export class UserTasksService {
         return this.httpClient.request<UserTaskResponseDTO>('post', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
-                body: createUserTaskCommand,
+                body: userTaskRequestDTO,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,

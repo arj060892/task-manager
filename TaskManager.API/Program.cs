@@ -1,10 +1,13 @@
 using System.Reflection;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Serilog;
 using TaskManager.Data;
 using TaskManager.Domain.Mappings;
+using TaskManager.Domain.Validations;
 using TaskManager.IoC;
 
 namespace TaskManager.API
@@ -28,6 +31,10 @@ namespace TaskManager.API
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("TaskManagerDbConnection"));
             });
+
+            builder.Services.AddFluentValidationAutoValidation();
+            builder.Services.AddFluentValidationClientsideAdapters();
+            builder.Services.AddValidatorsFromAssembly(typeof(UserTaskRequestValidator).Assembly);
 
             DependencyContainer.RegisterServices(builder.Services);
 

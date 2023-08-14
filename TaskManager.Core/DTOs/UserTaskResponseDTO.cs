@@ -31,6 +31,16 @@
         public DateTime? DueDate { get; set; }
 
         /// <summary>
+        /// Gets or sets the start time of the task.
+        /// </summary>
+        public TimeSpan? StartTime { get; set; }
+
+        /// <summary>
+        /// Gets or sets the end time of the task.
+        /// </summary>
+        public TimeSpan? EndTime { get; set; }
+
+        /// <summary>
         /// Gets or sets the date when the task was created.
         /// </summary>
         public DateTime CreatedDate { get; set; }

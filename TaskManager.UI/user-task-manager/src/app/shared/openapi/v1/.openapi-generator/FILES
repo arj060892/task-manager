@@ -1,0 +1,16 @@
+.gitignore
+README.md
+api.module.ts
+api/api.ts
+api/userTasks.service.ts
+configuration.ts
+encoder.ts
+git_push.sh
+index.ts
+model/models.ts
+model/timeSpan.ts
+model/updateUserTaskCommand.ts
+model/userTaskRequestDTO.ts
+model/userTaskResponseDTO.ts
+param.ts
+variables.ts

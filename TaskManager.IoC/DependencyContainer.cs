@@ -1,10 +1,12 @@
-﻿using MediatR;
+﻿using FluentValidation;
+using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using TaskManager.Core.Commands;
 using TaskManager.Core.Handlers.CommandHandlers;
 using TaskManager.Core.Handlers.QueryHandlers;
 using TaskManager.Core.Queries;
 using TaskManager.Domain.DTOs;
+using TaskManager.Domain.Validations;
 using TaskManager.Repository.Implementations;
 using TaskManager.Repository.Interfaces;
 using TaskManager.Service.Implementations;
@@ -35,6 +37,8 @@ namespace TaskManager.IoC
             services.AddTransient<IRequestHandler<UpdateUserTaskCommand, UserTaskResponseDTO>, UpdateUserTaskCommandHandler>();
             services.AddTransient<IRequestHandler<DeleteUserTaskCommand, bool>, DeleteUserTaskCommandHandler>();
 
+            // Register others
+            services.AddTransient<IValidator<UserTaskRequestDTO>, UserTaskRequestValidator>();
         }
     }
 }

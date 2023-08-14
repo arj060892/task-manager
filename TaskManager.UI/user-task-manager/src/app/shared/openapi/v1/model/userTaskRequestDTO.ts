@@ -16,5 +16,7 @@ export interface UserTaskRequestDTO {
     description?: string | null;
     status?: string | null;
     dueDate?: string | null;
+    startTime?: string | null;
+    endTime?: string | null;
 }
 

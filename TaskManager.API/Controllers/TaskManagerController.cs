@@ -60,8 +60,10 @@ namespace TaskManager.API.Controllers
         [HttpPost]
         [SwaggerResponse((int)HttpStatusCode.Created, Type = typeof(UserTaskResponseDTO))]
         [SwaggerResponse((int)HttpStatusCode.BadRequest, Type = typeof(string))]
-        public async Task<ActionResult<UserTaskResponseDTO>> CreateUserTask(CreateUserTaskCommand command)
+        public async Task<ActionResult<UserTaskResponseDTO>> CreateUserTask(UserTaskRequestDTO userTask)
         {
+            var command = new CreateUserTaskCommand() { UserTask = userTask };
+
             if (command == null || !this.ModelState.IsValid)
             {
                 this._logger.LogWarning("Invalid task data provided.");

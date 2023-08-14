@@ -24,5 +24,15 @@
         /// Gets or sets the date by which the task should be completed.
         /// </summary>
         public DateTime? DueDate { get; set; }
+
+        /// <summary>
+        /// Gets or sets the start time of the task.
+        /// </summary>
+        public string StartTime { get; set; }
+
+        /// <summary>
+        /// Gets or sets the end time of the task.
+        /// </summary>
+        public string EndTime { get; set; }
     }
 }

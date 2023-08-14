@@ -9,6 +9,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { TimeSpan } from './timeSpan';
 
 
 export interface UserTaskResponseDTO { 
@@ -17,6 +18,8 @@ export interface UserTaskResponseDTO {
     description?: string | null;
     status?: string | null;
     dueDate?: string | null;
+    startTime?: TimeSpan;
+    endTime?: TimeSpan;
     createdDate?: string;
     modifiedDate?: string;
 }

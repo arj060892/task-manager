@@ -26,6 +26,10 @@ namespace TaskManager.Data.Entities
 
         public DateTime? DueDate { get; set; }
 
+        public TimeSpan? StartTime { get; set; }
+
+        public TimeSpan? EndTime { get; set; }
+
         [Required]
         public DateTime CreatedDate { get; set; } = DateTime.Now;
 

@@ -1,18 +1,28 @@
 .task-item {
-  border: 1px solid #d5d5d5;
+  margin-bottom: 15px;
+  border: 1px solid #e5e5e5;
   border-radius: 5px;
   padding: 10px;
-  margin-bottom: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+}
+
+.task-title {
+  margin-left: 10px;
+  font-weight: bold;
+}
+
+.task-time {
+  color: #777;
+}
+
+.task-description {
+  margin-top: 10px;
+  margin-left: 10px;
 }
 
 .task-icons {
-  display: flex;
-  gap: 5px;
+  float: right;
 }
 
-.btn-icon {
-  padding: 0 5px;
+.title-row {
+  cursor: pointer;
 }

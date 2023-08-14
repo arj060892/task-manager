@@ -1,23 +1,33 @@
 <ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0">
-
   <ngb-panel title="Today">
     <ng-template ngbPanelContent>
-      <div *ngFor="let task of todayTasks" class="task-item">
+      <div *ngFor="let task of todayTasks" class="task-item row">
+        <div class="col-12 title-row" (click)="
+        expandedTaskId = task.id === expandedTaskId ? null : task.id
+      ">
+          <span class="task-title-btn">
+            <span class="task-time">
+              <i class="fa fa-clock"></i>
+              {{ task.dueDate | date : "dd MMM yyyy" }}
+              {{ task.startTime | timeFormat }} -
+              {{ task.endTime | timeFormat }}
+            </span>
 
-        <button class="btn btn-link"
-          (click)="expandedTaskId = task.id === expandedTaskId ? null : task.id">{{ task.title }}</button>
+            <span class="task-title">{{ task.title }}</span>
+          </span>
 
-        <span class="task-icons">
-          <button class="btn btn-sm btn-icon" (click)="editTask(task)" title="Edit Task">
-            <i class="fa fa-pencil text-primary"></i>
-          </button>
-          <button class="btn btn-sm btn-icon" (click)="deleteTask(task)" title="Delete Task">
-            <i class="fa fa-trash text-danger"></i>
-          </button>
-        </span>
+          <div class="task-icons">
+            <button class="btn btn-sm btn-icon" (click)="editTask(task)" title="Edit Task">
+              <i class="fa fa-pencil text-primary"></i>
+            </button>
+            <button class="btn btn-sm btn-icon" (click)="deleteTask(task)" title="Delete Task">
+              <i class="fa fa-trash text-danger"></i>
+            </button>
+          </div>
+        </div>
 
-        <div [ngbCollapse]="task.id !== expandedTaskId">
-          <div>{{ task.description }}</div>
+        <div [ngbCollapse]="task.id !== expandedTaskId" class="col-12">
+          <div class="task-description">{{ task.description }}</div>
         </div>
       </div>
     </ng-template>
@@ -25,19 +35,69 @@
 
   <ngb-panel title="Upcoming">
     <ng-template ngbPanelContent>
-      <div *ngFor="let task of upcomingTasks">
-        {{ task.title }} - {{ task.description }}
+      <div *ngFor="let task of upcomingTasks" class="task-item row">
+        <div class="col-12 title-row" (click)="
+        expandedTaskId = task.id === expandedTaskId ? null : task.id
+      ">
+          <span class="task-title-btn">
+            <span class="task-time">
+              <i class="fa fa-clock"></i>
+              {{ task.dueDate | date : "dd MMM yyyy" }}
+              {{ task.startTime | timeFormat }} -
+              {{ task.endTime | timeFormat }}
+            </span>
+
+            <span class="task-title">{{ task.title }}</span>
+          </span>
+
+          <div class="task-icons">
+            <button class="btn btn-sm btn-icon" (click)="editTask(task)" title="Edit Task">
+              <i class="fa fa-pencil text-primary"></i>
+            </button>
+            <button class="btn btn-sm btn-icon" (click)="deleteTask(task)" title="Delete Task">
+              <i class="fa fa-trash text-danger"></i>
+            </button>
+          </div>
+        </div>
+
+        <div [ngbCollapse]="task.id !== expandedTaskId" class="col-12">
+          <div class="task-description">{{ task.description }}</div>
+        </div>
       </div>
     </ng-template>
   </ngb-panel>
 
   <ngb-panel title="Past">
     <ng-template ngbPanelContent>
-      <!-- List of past tasks will be displayed here -->
-      <div *ngFor="let task of pastTasks">
-        {{ task.title }} - {{ task.description }}
+      <div *ngFor="let task of pastTasks" class="task-item row">
+        <div class="col-12 title-row" (click)="
+        expandedTaskId = task.id === expandedTaskId ? null : task.id
+      ">
+          <span class="task-title-btn">
+            <span class="task-time">
+              <i class="fa fa-clock"></i>
+              {{ task.dueDate | date : "dd MMM yyyy" }}
+              {{ task.startTime | timeFormat }} -
+              {{ task.endTime | timeFormat }}
+            </span>
+
+            <span class="task-title">{{ task.title }}</span>
+          </span>
+
+          <div class="task-icons">
+            <button class="btn btn-sm btn-icon" (click)="editTask(task)" title="Edit Task">
+              <i class="fa fa-pencil text-primary"></i>
+            </button>
+            <button class="btn btn-sm btn-icon" (click)="deleteTask(task)" title="Delete Task">
+              <i class="fa fa-trash text-danger"></i>
+            </button>
+          </div>
+        </div>
+
+        <div [ngbCollapse]="task.id !== expandedTaskId" class="col-12">
+          <div class="task-description">{{ task.description }}</div>
+        </div>
       </div>
     </ng-template>
   </ngb-panel>
-
 </ngb-accordion>

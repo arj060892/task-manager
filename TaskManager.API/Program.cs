@@ -49,9 +49,21 @@ namespace TaskManager.API
             builder.Logging.ClearProviders();
             builder.Logging.AddSerilog(logger);
 
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy(name: "AllowOrigin",
+                    builder =>
+                    {
+                        builder.WithOrigins("http://localhost:4200")
+                            .AllowAnyHeader()
+                            .AllowAnyMethod();
+                    });
+            });
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
+            app.UseCors("AllowOrigin");
 
             // Global Exception Handling
             app.UseExceptionHandler(errorApp =>
@@ -76,7 +88,6 @@ namespace TaskManager.API
                     c.SwaggerEndpoint("/swagger/v1/swagger.json", "User Task Manager V1");
                 });
             }
-
             app.UseHttpsRedirection();
 
             app.UseAuthorization();

@@ -19,8 +19,6 @@ import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
 // @ts-ignore
-import { UpdateUserTaskCommand } from '../model/updateUserTaskCommand';
-// @ts-ignore
 import { UserTaskRequestDTO } from '../model/userTaskRequestDTO';
 // @ts-ignore
 import { UserTaskResponseDTO } from '../model/userTaskResponseDTO';
@@ -270,14 +268,14 @@ export class UserTasksService {
 
     /**
      * @param id 
-     * @param updateUserTaskCommand 
+     * @param userTaskRequestDTO 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public apiUserTasksIdPut(id: number, updateUserTaskCommand?: UpdateUserTaskCommand, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<UserTaskResponseDTO>;
-    public apiUserTasksIdPut(id: number, updateUserTaskCommand?: UpdateUserTaskCommand, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<UserTaskResponseDTO>>;
-    public apiUserTasksIdPut(id: number, updateUserTaskCommand?: UpdateUserTaskCommand, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<UserTaskResponseDTO>>;
-    public apiUserTasksIdPut(id: number, updateUserTaskCommand?: UpdateUserTaskCommand, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
+    public apiUserTasksIdPut(id: number, userTaskRequestDTO?: UserTaskRequestDTO, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<UserTaskResponseDTO>;
+    public apiUserTasksIdPut(id: number, userTaskRequestDTO?: UserTaskRequestDTO, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpResponse<UserTaskResponseDTO>>;
+    public apiUserTasksIdPut(id: number, userTaskRequestDTO?: UserTaskRequestDTO, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<HttpEvent<UserTaskResponseDTO>>;
+    public apiUserTasksIdPut(id: number, userTaskRequestDTO?: UserTaskRequestDTO, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext}): Observable<any> {
         if (id === null || id === undefined) {
             throw new Error('Required parameter id was null or undefined when calling apiUserTasksIdPut.');
         }
@@ -330,7 +328,7 @@ export class UserTasksService {
         return this.httpClient.request<UserTaskResponseDTO>('put', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
-                body: updateUserTaskCommand,
+                body: userTaskRequestDTO,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,

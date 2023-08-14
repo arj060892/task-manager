@@ -7,6 +7,7 @@ import * as TaskActions from '../shared/store/actions/task.actions';
 import { Subscription } from 'rxjs';
 import * as fromTasks from '../shared/store/selectors/task.selectors';
 import * as moment from 'moment';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-task-list',
@@ -20,9 +21,15 @@ export class TaskListComponent implements OnInit {
   expandedTaskId: number | null | undefined = null;
   private tasksSubscription?: Subscription;
 
-  constructor(private modalService: NgbModal, private store: Store) {}
+  constructor(
+    private modalService: NgbModal,
+    private store: Store,
+    private router: Router
+  ) {}
 
-  editTask(task: UserTaskResponseDTO): void {}
+  editTask(task: UserTaskResponseDTO): void {
+    this.router.navigate(['/task', task.id]);
+  }
 
   deleteTask(task: UserTaskResponseDTO) {
     const modalRef = this.modalService.open(DeleteTaskModalComponent);

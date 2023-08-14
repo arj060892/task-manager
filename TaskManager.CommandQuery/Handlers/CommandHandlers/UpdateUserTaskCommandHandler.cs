@@ -19,7 +19,7 @@ namespace TaskManager.Core.Handlers.CommandHandlers
 
         public async Task<UserTaskResponseDTO> Handle(UpdateUserTaskCommand command, CancellationToken cancellationToken)
         {
-            return await this._service.UpdateTask(command.UserTask);
+            return await this._service.UpdateTask(command.UserTask, command.Id);
         }
     }
 }

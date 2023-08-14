@@ -49,11 +49,14 @@ namespace TaskManager.Service.Implementations
 
         }
 
-        public async Task<UserTaskResponseDTO> UpdateTask(UserTaskRequestDTO userTaskDTO)
+        public async Task<UserTaskResponseDTO> UpdateTask(UserTaskRequestDTO userTaskDTO, int taskId)
         {
-            var updatedTask = await this._repository
-                .UpdateAsync(this._mapper.Map<UserTask>(userTaskDTO));
+            var userTask = this._mapper.Map<UserTask>(userTaskDTO);
+            userTask.Id = taskId;
+            userTask.ModifiedDate = DateTime.Now;
 
+            var updatedTask = await this._repository
+                .UpdateAsync(userTask);
             return this._mapper.Map<UserTaskResponseDTO>(updatedTask);
         }
 

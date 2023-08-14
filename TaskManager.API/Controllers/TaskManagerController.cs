@@ -80,8 +80,9 @@ namespace TaskManager.API.Controllers
         [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(UserTaskResponseDTO))]
         [SwaggerResponse((int)HttpStatusCode.NotFound)]
         [SwaggerResponse((int)HttpStatusCode.BadRequest, Type = typeof(string))]
-        public async Task<IActionResult> UpdateUserTask(int id, UpdateUserTaskCommand command)
+        public async Task<IActionResult> UpdateUserTask(int id, UserTaskRequestDTO userTask)
         {
+            var command = new UpdateUserTaskCommand() { UserTask = userTask, Id = id };
             if (id <= 0)
             {
                 this._logger.LogWarning($"Invalid task id: {id} provided for update.");
@@ -94,7 +95,6 @@ namespace TaskManager.API.Controllers
                 return this.BadRequest(this.ModelState);
             }
 
-            command.Id = id;
             this._logger.LogInformation($"Updating user task with id: {id}.");
             var result = await this._mediator.Send(command);
             if (result == null)

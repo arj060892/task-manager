@@ -20,6 +20,23 @@ const _taskReducer = createReducer(
   on(TaskActions.loadTasksSuccess, (state, { tasks }) => ({ ...state, tasks })),
   on(TaskActions.loadTasksFailure, (state, { error }) => ({ ...state, error })),
 
+  on(TaskActions.loadTaskByIdSuccess, (state, { task }) => {
+    return {
+      ...state,
+      tasks: [...state.tasks.filter((t) => t.id !== task.id), task],
+      loading: false,
+      loaded: true,
+    };
+  }),
+  on(TaskActions.loadTaskByIdFailure, (state, { error }) => {
+    return {
+      ...state,
+      loading: false,
+      loaded: false,
+      error,
+    };
+  }),
+
   // **CREATE**
   on(TaskActions.createTask, (state) => state),
   on(TaskActions.createTaskSuccess, (state, { task }) => {

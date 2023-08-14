@@ -9,8 +9,8 @@
             <span class="task-time">
               <i class="fa fa-clock"></i>
               {{ task.dueDate | date : "dd MMM yyyy" }}
-              {{ task.startTime | timeFormat }} -
-              {{ task.endTime | timeFormat }}
+              {{ task.startTime! | timeFormat }} -
+              {{ task.endTime! | timeFormat }}
             </span>
 
             <span class="task-title">{{ task.title }}</span>
@@ -43,8 +43,8 @@
             <span class="task-time">
               <i class="fa fa-clock"></i>
               {{ task.dueDate | date : "dd MMM yyyy" }}
-              {{ task.startTime | timeFormat }} -
-              {{ task.endTime | timeFormat }}
+              {{ task.startTime! | timeFormat }} -
+              {{ task.endTime! | timeFormat }}
             </span>
 
             <span class="task-title">{{ task.title }}</span>
@@ -77,8 +77,8 @@
             <span class="task-time">
               <i class="fa fa-clock"></i>
               {{ task.dueDate | date : "dd MMM yyyy" }}
-              {{ task.startTime | timeFormat }} -
-              {{ task.endTime | timeFormat }}
+              {{ task.startTime! | timeFormat }} -
+              {{ task.endTime! | timeFormat }}
             </span>
 
             <span class="task-title">{{ task.title }}</span>

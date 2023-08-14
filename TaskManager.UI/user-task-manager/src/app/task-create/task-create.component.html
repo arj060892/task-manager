@@ -52,6 +52,9 @@
   </div>
 
   <div class="mt-3">
-    <button type="submit" class="btn btn-primary" [disabled]="taskForm!.invalid">Create Task</button>
+    <button type="submit" class="btn btn-primary" [disabled]="taskForm!.invalid">
+      {{ isUpdateMode ? 'Update Task' : 'Create Task' }}
+    </button>
+
   </div>
 </form>

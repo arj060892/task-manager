@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { UserTaskRequestDTO } from '../shared/openapi/v1';
+import { UserTaskRequestDTO, UserTaskResponseDTO } from '../shared/openapi/v1';
 import { NgbDateStruct, NgbTimeStruct } from '@ng-bootstrap/ng-bootstrap';
 import * as moment from 'moment';
 import * as TaskActions from '../shared/store/actions/task.actions';
 import { Store } from '@ngrx/store';
+import { ActivatedRoute } from '@angular/router';
+import * as fromTasks from '../shared/store/selectors/task.selectors';
 
 @Component({
   selector: 'app-task-create',
@@ -13,47 +15,80 @@ import { Store } from '@ngrx/store';
 })
 export class TaskCreateComponent implements OnInit {
   taskForm?: FormGroup;
-  statuses = ['Pending', 'Completed', 'Removed'];
+  statuses = ['Pending', 'InProgress', 'Completed'];
+  isUpdateMode: boolean = false;
 
-  constructor(private fb: FormBuilder, private store: Store) {}
+  constructor(
+    private fb: FormBuilder,
+    private store: Store,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
+    const taskId = this.route.snapshot.paramMap.get('id');
+    if (taskId) {
+      this.isUpdateMode = true;
+      this.store.dispatch(TaskActions.loadTaskById({ taskId: +taskId }));
+      this.store.select(fromTasks.selectTaskById(+taskId)).subscribe((task) => {
+        if (task) {
+          this.populateForm(task);
+        }
+      });
+    }
     this.initForm();
   }
 
+  populateForm(task: UserTaskResponseDTO) {
+    this.taskForm!.patchValue({
+      title: task.title,
+      description: task.description,
+      status: task.status,
+      dueDate: this.toNgbDateStruct(task.dueDate!),
+      startTime: this.toNgbTimeStruct(task.startTime!),
+      endTime: this.toNgbTimeStruct(task.endTime!),
+      id: task.id,
+    });
+  }
+
   initForm() {
+    const now = moment();
     this.taskForm = this.fb.group({
       title: ['', Validators.required],
       description: [''],
       status: ['Pending'],
-      dueDate: this.getCurrentDate(),
-      startTime: this.getCurrentTime(),
-      endTime: this.getOneHourLater(),
+      dueDate: this.toNgbDateStruct(now.format('YYYY-MM-DD')),
+      startTime: this.toNgbTimeStruct(now.format('HH:mm:ss')),
+      endTime: this.toNgbTimeStruct(now.add(1, 'hours').format('HH:mm:ss')),
+      id: 0,
     });
+  }
+
+  private toNgbDateStruct(dateString: string): NgbDateStruct {
+    const date = moment(dateString);
+    return { year: date.year(), month: date.month() + 1, day: date.date() };
+  }
+
+  private toNgbTimeStruct(timeString: string): NgbTimeStruct {
+    const time = moment(timeString, 'HH:mm:ss');
+    return {
+      hour: time.hours(),
+      minute: time.minutes(),
+      second: time.seconds(),
+    };
   }
 
   onSubmit(): void {
     const taskDTO = this.convertToUserTaskRequestDTO(this.taskForm!.value);
-    this.store.dispatch(TaskActions.createTask({ task: taskDTO }));
-  }
-
-  getCurrentDate(): NgbDateStruct {
-    const today = moment();
-    return { year: today.year(), month: today.month() + 1, day: today.date() };
-  }
-
-  getCurrentTime(): NgbTimeStruct {
-    const now = moment();
-    return { hour: now.hours(), minute: now.minutes(), second: now.seconds() };
-  }
-
-  getOneHourLater(): NgbTimeStruct {
-    const oneHourLater = moment().add(1, 'hours');
-    return {
-      hour: oneHourLater.hours(),
-      minute: oneHourLater.minutes(),
-      second: oneHourLater.seconds(),
-    };
+    if (this.isUpdateMode) {
+      this.store.dispatch(
+        TaskActions.updateTask({
+          taskId: this.taskForm?.get('id')?.value as number,
+          updatedTask: taskDTO,
+        })
+      );
+    } else {
+      this.store.dispatch(TaskActions.createTask({ task: taskDTO }));
+    }
   }
 
   convertToUserTaskRequestDTO(formValue: any): UserTaskRequestDTO {

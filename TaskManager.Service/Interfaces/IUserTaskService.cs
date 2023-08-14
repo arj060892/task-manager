@@ -31,8 +31,9 @@ namespace TaskManager.Service.Interfaces
         /// Updates an existing user task.
         /// </summary>
         /// <param name="userTaskDTO">The UserTaskRequestDTO to update.</param>
+        /// <param name="taskId">The task Id which needs to be updated.</param>
         /// <returns>Updated UserTaskResponseDTO</returns>
-        Task<UserTaskResponseDTO> UpdateTask(UserTaskRequestDTO userTaskDTO);
+        Task<UserTaskResponseDTO> UpdateTask(UserTaskRequestDTO userTaskDTO, int taskId);
 
         /// <summary>
         /// Deletes a user task.

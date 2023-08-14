@@ -8,7 +8,7 @@
   <p>Are you sure you want to delete the following task?</p>
   <strong>Title:</strong> {{task!.title}}<br>
   <strong>Date:</strong> {{task!.dueDate | date : "dd MMM yyyy"}}<br>
-  <strong>Time:</strong> {{task!.startTime | timeFormat}} - {{task!.endTime | timeFormat}}<br>
+  <strong>Time:</strong> {{task!.startTime! | timeFormat}} - {{task!.endTime! | timeFormat}}<br>
   <strong>Description:</strong> {{task!.description}}
 </div>
 <div class="modal-footer">

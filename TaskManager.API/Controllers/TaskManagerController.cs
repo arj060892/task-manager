@@ -1,5 +1,7 @@
-﻿using MediatR;
+﻿using System.Net;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 using TaskManager.Core.Commands;
 using TaskManager.Core.Queries;
 using TaskManager.Domain.DTOs;
@@ -20,6 +22,8 @@ namespace TaskManager.API.Controllers
         }
 
         [HttpGet]
+        [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(IEnumerable<UserTaskResponseDTO>))]
+        [SwaggerResponse((int)HttpStatusCode.InternalServerError, Type = typeof(string))]
         public async Task<ActionResult<IEnumerable<UserTaskResponseDTO>>> GetAllUserTasks()
         {
             this._logger.LogInformation("Fetching all user tasks.");
@@ -30,6 +34,9 @@ namespace TaskManager.API.Controllers
         }
 
         [HttpGet("{id}")]
+        [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(UserTaskResponseDTO))]
+        [SwaggerResponse((int)HttpStatusCode.NotFound)]
+        [SwaggerResponse((int)HttpStatusCode.BadRequest, Type = typeof(string))]
         public async Task<ActionResult<UserTaskResponseDTO>> GetUserTask(int id)
         {
             if (id <= 0)
@@ -51,6 +58,8 @@ namespace TaskManager.API.Controllers
         }
 
         [HttpPost]
+        [SwaggerResponse((int)HttpStatusCode.Created, Type = typeof(UserTaskResponseDTO))]
+        [SwaggerResponse((int)HttpStatusCode.BadRequest, Type = typeof(string))]
         public async Task<ActionResult<UserTaskResponseDTO>> CreateUserTask(CreateUserTaskCommand command)
         {
             if (command == null || !this.ModelState.IsValid)
@@ -66,6 +75,9 @@ namespace TaskManager.API.Controllers
         }
 
         [HttpPut("{id}")]
+        [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(UserTaskResponseDTO))]
+        [SwaggerResponse((int)HttpStatusCode.NotFound)]
+        [SwaggerResponse((int)HttpStatusCode.BadRequest, Type = typeof(string))]
         public async Task<IActionResult> UpdateUserTask(int id, UpdateUserTaskCommand command)
         {
             if (id <= 0)
@@ -93,6 +105,9 @@ namespace TaskManager.API.Controllers
         }
 
         [HttpDelete("{id}")]
+        [SwaggerResponse((int)HttpStatusCode.NoContent)]
+        [SwaggerResponse((int)HttpStatusCode.NotFound)]
+        [SwaggerResponse((int)HttpStatusCode.BadRequest, Type = typeof(string))]
         public async Task<IActionResult> DeleteUserTask(int id)
         {
             if (id <= 0)

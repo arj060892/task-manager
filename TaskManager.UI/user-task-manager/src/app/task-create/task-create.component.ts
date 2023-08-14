@@ -5,8 +5,11 @@ import { NgbDateStruct, NgbTimeStruct } from '@ng-bootstrap/ng-bootstrap';
 import * as moment from 'moment';
 import * as TaskActions from '../shared/store/actions/task.actions';
 import { Store } from '@ngrx/store';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import * as fromTasks from '../shared/store/selectors/task.selectors';
+import { ToastrService } from 'ngx-toastr';
+import { Actions, ofType } from '@ngrx/effects';
+import { tap, merge } from 'rxjs';
 
 @Component({
   selector: 'app-task-create',
@@ -21,11 +24,15 @@ export class TaskCreateComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private store: Store,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private toastr: ToastrService,
+    private actions$: Actions,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
     const taskId = this.route.snapshot.paramMap.get('id');
+    this.initForm();
     if (taskId) {
       this.isUpdateMode = true;
       this.store.dispatch(TaskActions.loadTaskById({ taskId: +taskId }));
@@ -35,7 +42,31 @@ export class TaskCreateComponent implements OnInit {
         }
       });
     }
-    this.initForm();
+
+    merge(
+      this.actions$.pipe(
+        ofType(TaskActions.createTaskSuccess),
+        tap(() => {
+          this.toastr.success('Task created successfully');
+          this.router.navigate(['/tasks']);
+        })
+      ),
+      this.actions$.pipe(
+        ofType(TaskActions.createTaskFailure),
+        tap((e) => this.toastr.error(e.error.error))
+      ),
+      this.actions$.pipe(
+        ofType(TaskActions.updateTaskSuccess),
+        tap(() => {
+          this.toastr.success('Task updated successfully');
+          this.router.navigate(['/tasks']);
+        })
+      ),
+      this.actions$.pipe(
+        ofType(TaskActions.updateTaskFailure),
+        tap((e) => this.toastr.error(e.error.error))
+      )
+    ).subscribe();
   }
 
   populateForm(task: UserTaskResponseDTO) {

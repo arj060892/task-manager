@@ -8,6 +8,8 @@ import { Subscription } from 'rxjs';
 import * as fromTasks from '../shared/store/selectors/task.selectors';
 import * as moment from 'moment';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { Actions, ofType } from '@ngrx/effects';
 
 @Component({
   selector: 'app-task-list',
@@ -24,7 +26,9 @@ export class TaskListComponent implements OnInit {
   constructor(
     private modalService: NgbModal,
     private store: Store,
-    private router: Router
+    private router: Router,
+    private toastr: ToastrService,
+    private actions$: Actions
   ) {}
 
   editTask(task: UserTaskResponseDTO): void {
@@ -34,15 +38,11 @@ export class TaskListComponent implements OnInit {
   deleteTask(task: UserTaskResponseDTO) {
     const modalRef = this.modalService.open(DeleteTaskModalComponent);
     modalRef.componentInstance.task = task;
-    modalRef.result.then(
-      (taskId) => {
-        if (taskId) {
-          console.log(taskId);
-          this.store.dispatch(TaskActions.deleteTask({ taskId: task.id! }));
-        }
-      },
-      (reason) => {}
-    );
+    modalRef.result.then((taskId) => {
+      if (taskId) {
+        this.store.dispatch(TaskActions.deleteTask({ taskId: task.id! }));
+      }
+    });
   }
 
   ngOnInit(): void {
@@ -59,6 +59,15 @@ export class TaskListComponent implements OnInit {
         );
         this.pastTasks = tasks.filter((t) => moment(t.dueDate).isBefore(today));
       });
+
+    this.actions$.pipe(ofType(TaskActions.deleteTaskSuccess)).subscribe(() => {
+      this.store.dispatch(TaskActions.loadTasks());
+      this.toastr.success('Task deleted successfully');
+    });
+
+    this.actions$.pipe(ofType(TaskActions.deleteTaskFailure)).subscribe((e) => {
+      this.toastr.error(e.error.error);
+    });
   }
 
   ngOnDestroy(): void {

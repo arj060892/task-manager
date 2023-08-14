@@ -1,3 +1,26 @@
-<div class="row">
-  <div class="col-md-12">Hello World</div>
+<!-- Top Bar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <div class="container">
+    <a class="navbar-brand" href="#">Task Manager</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/"><i class="bi bi-house-door"></i> Dashboard</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/create"><i class="bi bi-plus-circle"></i> Create Task</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Main Content -->
+<div class="container mt-4">
+  <app-task-list></app-task-list>
+  <router-outlet></router-outlet>
 </div>

@@ -1,0 +1,43 @@
+<ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0">
+
+  <ngb-panel title="Today">
+    <ng-template ngbPanelContent>
+      <div *ngFor="let task of todayTasks" class="task-item">
+
+        <button class="btn btn-link"
+          (click)="expandedTaskId = task.id === expandedTaskId ? null : task.id">{{ task.title }}</button>
+
+        <span class="task-icons">
+          <button class="btn btn-sm btn-icon" (click)="editTask(task)" title="Edit Task">
+            <i class="fa fa-pencil text-primary"></i>
+          </button>
+          <button class="btn btn-sm btn-icon" (click)="deleteTask(task)" title="Delete Task">
+            <i class="fa fa-trash text-danger"></i>
+          </button>
+        </span>
+
+        <div [ngbCollapse]="task.id !== expandedTaskId">
+          <div>{{ task.description }}</div>
+        </div>
+      </div>
+    </ng-template>
+  </ngb-panel>
+
+  <ngb-panel title="Upcoming">
+    <ng-template ngbPanelContent>
+      <div *ngFor="let task of upcomingTasks">
+        {{ task.title }} - {{ task.description }}
+      </div>
+    </ng-template>
+  </ngb-panel>
+
+  <ngb-panel title="Past">
+    <ng-template ngbPanelContent>
+      <!-- List of past tasks will be displayed here -->
+      <div *ngFor="let task of pastTasks">
+        {{ task.title }} - {{ task.description }}
+      </div>
+    </ng-template>
+  </ngb-panel>
+
+</ngb-accordion>

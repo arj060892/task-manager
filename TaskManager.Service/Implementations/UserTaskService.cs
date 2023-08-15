@@ -31,22 +31,9 @@ namespace TaskManager.Service.Implementations
 
         public async Task<UserTaskResponseDTO> AddTaskAsync(UserTaskRequestDTO userTaskDTO)
         {
-            try
-            {
-                var xx = this._mapper.Map<UserTask>(userTaskDTO);
-                var addedTask = await this._repository
-                .AddAsync(xx);
-                return this._mapper.Map<UserTaskResponseDTO>(addedTask);
-
-            }
-            catch (Exception e)
-            {
-
-                await Console.Out.WriteLineAsync(e.Message);
-                throw e;
-
-            }
-
+            var addedTask = await this._repository
+                .AddAsync(this._mapper.Map<UserTask>(userTaskDTO));
+            return this._mapper.Map<UserTaskResponseDTO>(addedTask);
         }
 
         public async Task<UserTaskResponseDTO> UpdateTask(UserTaskRequestDTO userTaskDTO, int taskId)

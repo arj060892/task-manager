@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { UserTaskResponseDTO } from '../shared/openapi/v1';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DeleteTaskModalComponent } from '../shared/modals/delete-task-modal/delete-task-modal.component';
 import { Store } from '@ngrx/store';
 import * as TaskActions from '../shared/store/actions/task.actions';
-import { Subscription } from 'rxjs';
+import { Subject, Subscription, takeUntil } from 'rxjs';
 import * as fromTasks from '../shared/store/selectors/task.selectors';
 import * as moment from 'moment';
 import { Router } from '@angular/router';
@@ -15,13 +15,14 @@ import { Actions, ofType } from '@ngrx/effects';
   selector: 'app-task-list',
   templateUrl: './task-list.component.html',
   styleUrls: ['./task-list.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TaskListComponent implements OnInit {
   todayTasks: UserTaskResponseDTO[] = [];
   upcomingTasks: UserTaskResponseDTO[] = [];
   pastTasks: UserTaskResponseDTO[] = [];
   expandedTaskId: number | null | undefined = null;
-  private tasksSubscription?: Subscription;
+  private destroy$ = new Subject<void>();
 
   constructor(
     private modalService: NgbModal,
@@ -47,32 +48,40 @@ export class TaskListComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.dispatch(TaskActions.loadTasks());
-    this.tasksSubscription = this.store
+    this.store
       .select(fromTasks.selectAllTasks)
+      .pipe(takeUntil(this.destroy$))
       .subscribe((tasks) => {
         const today = moment();
         this.todayTasks = tasks.filter((t) =>
           moment(t.dueDate).isSame(today, 'day')
         );
         this.upcomingTasks = tasks.filter((t) =>
-          moment(t.dueDate).isAfter(today)
+          moment(t.dueDate).isAfter(today, 'day')
         );
-        this.pastTasks = tasks.filter((t) => moment(t.dueDate).isBefore(today));
+        this.pastTasks = tasks.filter((t) =>
+          moment(t.dueDate).isBefore(today, 'day')
+        );
       });
 
-    this.actions$.pipe(ofType(TaskActions.deleteTaskSuccess)).subscribe(() => {
-      this.store.dispatch(TaskActions.loadTasks());
-      this.toastr.success('Task deleted successfully');
-    });
+    this.actions$
+      .pipe(ofType(TaskActions.deleteTaskSuccess), takeUntil(this.destroy$))
+      .subscribe(() => {
+        this.store.dispatch(TaskActions.loadTasks());
+        this.toastr.success('Task deleted successfully');
+      });
 
-    this.actions$.pipe(ofType(TaskActions.deleteTaskFailure)).subscribe((e) => {
-      this.toastr.error(e.error.error);
-    });
+    this.actions$
+      .pipe(ofType(TaskActions.deleteTaskFailure), takeUntil(this.destroy$))
+      .subscribe((e) => {
+        if (e && e.error) {
+          this.toastr.error(e.error.error);
+        }
+      });
   }
 
   ngOnDestroy(): void {
-    if (this.tasksSubscription) {
-      this.tasksSubscription.unsubscribe();
-    }
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

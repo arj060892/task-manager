@@ -1,4 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserTaskRequestDTO, UserTaskResponseDTO } from '../shared/openapi/v1';
 import { NgbDateStruct, NgbTimeStruct } from '@ng-bootstrap/ng-bootstrap';
@@ -9,17 +14,19 @@ import { ActivatedRoute, Router } from '@angular/router';
 import * as fromTasks from '../shared/store/selectors/task.selectors';
 import { ToastrService } from 'ngx-toastr';
 import { Actions, ofType } from '@ngrx/effects';
-import { tap, merge } from 'rxjs';
+import { tap, merge, Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-task-create',
   templateUrl: './task-create.component.html',
   styleUrls: ['./task-create.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TaskCreateComponent implements OnInit {
+export class TaskCreateComponent implements OnInit, OnDestroy {
   taskForm?: FormGroup;
   statuses = ['Pending', 'InProgress', 'Completed'];
   isUpdateMode: boolean = false;
+  private destroy$ = new Subject<void>();
 
   constructor(
     private fb: FormBuilder,
@@ -66,7 +73,9 @@ export class TaskCreateComponent implements OnInit {
         ofType(TaskActions.updateTaskFailure),
         tap((e) => this.toastr.error(e.error.error))
       )
-    ).subscribe();
+    )
+      .pipe(takeUntil(this.destroy$))
+      .subscribe();
   }
 
   populateForm(task: UserTaskResponseDTO) {
@@ -145,5 +154,10 @@ export class TaskCreateComponent implements OnInit {
     };
 
     return dto;
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

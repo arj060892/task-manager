@@ -10,8 +10,6 @@
   },
   "workbench.iconTheme": "material-icon-theme",
   "gitlens.currentLine.enabled": false,
-  "coverage-gutters.coverageReportFileName": "coverage/cx/**/index.html",
-  "coverage-gutters.coverageBaseDir": "coverage/cx/**",
   "openSpecFile.suffixMap": {
     ".ts": ".spec.ts"
   },

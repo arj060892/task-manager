@@ -29,34 +29,16 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskManager.IoC", "TaskMana
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskManager.API", "TaskManager.API\TaskManager.API.csproj", "{7AC556F0-47DD-495D-AD82-FDB6D3E45509}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{46322274-5140-43E6-A166-88F136AC3FA8}"
-EndProject
-Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "TaskManager.UI", "TaskManager.UI\", "{C09D3FB6-4762-4C24-87D9-9C7E22B23926}"
-	ProjectSection(WebsiteProperties) = preProject
-		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.8"
-		Debug.AspNetCompiler.VirtualPath = "/localhost_54217"
-		Debug.AspNetCompiler.PhysicalPath = "TaskManager.UI\"
-		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_54217\"
-		Debug.AspNetCompiler.Updateable = "true"
-		Debug.AspNetCompiler.ForceOverwrite = "true"
-		Debug.AspNetCompiler.FixedNames = "false"
-		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.VirtualPath = "/localhost_54217"
-		Release.AspNetCompiler.PhysicalPath = "TaskManager.UI\"
-		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_54217\"
-		Release.AspNetCompiler.Updateable = "true"
-		Release.AspNetCompiler.ForceOverwrite = "true"
-		Release.AspNetCompiler.FixedNames = "false"
-		Release.AspNetCompiler.Debug = "False"
-		VWDPort = "54217"
-		SlnRelativePath = "TaskManager.UI\"
-	EndProjectSection
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{9C7F74A4-AC31-47C9-BC4C-2C2379A3DE15}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManager.API.Tests", "TaskManager.API.Tests\TaskManager.API.Tests.csproj", "{3C179566-167A-4448-9A49-7CCAF8CC7BE4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskManager.API.Tests", "TaskManager.API.Tests\TaskManager.API.Tests.csproj", "{3C179566-167A-4448-9A49-7CCAF8CC7BE4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManager.Service.Tests", "TaskManager.Service.Tests\TaskManager.Service.Tests.csproj", "{0B6DA543-4DAE-41A9-933C-5F6AEAB4B3D2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskManager.Service.Tests", "TaskManager.Service.Tests\TaskManager.Service.Tests.csproj", "{0B6DA543-4DAE-41A9-933C-5F6AEAB4B3D2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9AAB0570-539E-4F66-9920-F81D3D039547}"
+	ProjectSection(SolutionItems) = preProject
+		start-sql-container.ps1 = start-sql-container.ps1
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -92,10 +74,6 @@ Global
 		{7AC556F0-47DD-495D-AD82-FDB6D3E45509}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7AC556F0-47DD-495D-AD82-FDB6D3E45509}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7AC556F0-47DD-495D-AD82-FDB6D3E45509}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C09D3FB6-4762-4C24-87D9-9C7E22B23926}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C09D3FB6-4762-4C24-87D9-9C7E22B23926}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C09D3FB6-4762-4C24-87D9-9C7E22B23926}.Release|Any CPU.ActiveCfg = Debug|Any CPU
-		{C09D3FB6-4762-4C24-87D9-9C7E22B23926}.Release|Any CPU.Build.0 = Debug|Any CPU
 		{3C179566-167A-4448-9A49-7CCAF8CC7BE4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3C179566-167A-4448-9A49-7CCAF8CC7BE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3C179566-167A-4448-9A49-7CCAF8CC7BE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -116,7 +94,6 @@ Global
 		{DBE2BBFE-69FD-4B63-8058-77ACC72DB7B4} = {B7B70F1F-4666-46B9-B516-800385242457}
 		{3C07485D-4314-4308-9823-F438B9A031CD} = {468344DA-0358-47D4-B4F0-AE1C5F08E66A}
 		{7AC556F0-47DD-495D-AD82-FDB6D3E45509} = {F56DCA1E-8CBC-4807-9684-A31B8D4AC119}
-		{C09D3FB6-4762-4C24-87D9-9C7E22B23926} = {46322274-5140-43E6-A166-88F136AC3FA8}
 		{3C179566-167A-4448-9A49-7CCAF8CC7BE4} = {9C7F74A4-AC31-47C9-BC4C-2C2379A3DE15}
 		{0B6DA543-4DAE-41A9-933C-5F6AEAB4B3D2} = {9C7F74A4-AC31-47C9-BC4C-2C2379A3DE15}
 	EndGlobalSection

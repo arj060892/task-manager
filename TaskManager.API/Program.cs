@@ -41,7 +41,6 @@ namespace TaskManager.API
             builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
             builder.Services.AddAutoMapper(typeof(UserTaskProfile).GetTypeInfo().Assembly);
 
-
             // Initialize Serilog
             var logger = new LoggerConfiguration()
                 .WriteTo.File("logs/log-.txt", rollingInterval: RollingInterval.Day) // File logging
@@ -63,6 +62,14 @@ namespace TaskManager.API
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
+            using (var scope = app.Services.CreateScope())
+            {
+                var dbContext = scope.ServiceProvider
+                    .GetRequiredService<UserTaskManagerDbContext>();
+
+                dbContext.Database.Migrate();
+            }
+
             app.UseCors("AllowOrigin");
 
             // Global Exception Handling
